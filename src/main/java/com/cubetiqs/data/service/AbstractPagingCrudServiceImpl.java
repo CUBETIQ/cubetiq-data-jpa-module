@@ -1,9 +1,11 @@
 package com.cubetiqs.data.service;
 
+import com.cubetiqs.data.domain.BaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,7 +18,9 @@ import java.util.List;
  * @since 1.0
  */
 @NoServiceBean
-public class PagingCrudServiceImpl<T, ID> extends AbstractCrudServiceImpl<T, ID> implements PagingCrudService<T, ID> {
+public abstract class AbstractPagingCrudServiceImpl<T extends BaseEntity<ID>, ID extends Serializable>
+        extends AbstractCrudServiceImpl<T, ID>
+        implements PagingCrudService<T, ID> {
     @Override
     public Page<T> findAll(Pageable pageable) {
         return getRepository().findAll(pageable);
