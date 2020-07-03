@@ -1,8 +1,8 @@
 package com.cubetiqs.data.service;
 
 import com.cubetiqs.data.domain.BaseEntity;
-import com.cubetiqs.data.repository.BaseRepository;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +12,7 @@ import java.util.List;
  * @since 1.0
  */
 @NoServiceBean
-public class CrudServiceImpl<T, ID extends BaseEntity<ID>> implements CrudService<T, ID> {
+public abstract class AbstractCrudServiceImpl<T extends BaseEntity<ID>, ID extends Serializable> implements CrudService<T, ID> {
     @Override
     public List<T> findAll() {
         return getRepository().findAll();
@@ -35,11 +35,11 @@ public class CrudServiceImpl<T, ID extends BaseEntity<ID>> implements CrudServic
 
     @Override
     public T update(ID id, T entity) {
-        T update = read(id);
-        if (update == null) {
-            return null;
+        if (existsById(id)) {
+            entity.setId(id);
+            return getRepository().save(entity);
         }
-        return getRepository().save(entity);
+        return null;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class CrudServiceImpl<T, ID extends BaseEntity<ID>> implements CrudServic
     }
 
     @Override
-    public BaseRepository<T, ID> getRepository() {
-        throw new ServiceNotImplementException("service must be implement!");
+    public boolean existsById(ID id) {
+        return getRepository().existsById(id);
     }
 }

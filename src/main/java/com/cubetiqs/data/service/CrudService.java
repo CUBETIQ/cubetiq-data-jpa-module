@@ -64,4 +64,6 @@ public interface CrudService<T, ID> extends BaseService<T, ID> {
      * @param ids List of IDs
      */
     void deleteAll(List<ID> ids);
+
+    boolean existsById(ID id);
 }

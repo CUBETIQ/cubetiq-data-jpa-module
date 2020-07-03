@@ -12,11 +12,11 @@ import java.util.List;
  * @author sombochea
  * @see CrudService
  * @see PagingCrudService
- * @see CrudServiceImpl
+ * @see AbstractCrudServiceImpl
  * @since 1.0
  */
 @NoServiceBean
-public class PagingCrudServiceImpl<T, ID> extends CrudServiceImpl<T, ID> implements PagingCrudService<T, ID> {
+public class PagingCrudServiceImpl<T, ID> extends AbstractCrudServiceImpl<T, ID> implements PagingCrudService<T, ID> {
     @Override
     public Page<T> findAll(Pageable pageable) {
         return getRepository().findAll(pageable);
